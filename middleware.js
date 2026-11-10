@@ -7,7 +7,7 @@ export default async function middleware(request) {
 
   if (ua.includes('roblox')) {
     const res = await fetch(
-      'https://raw.githubusercontent.com/wawa2009/Lost-front-script/refs/heads/main/output.lua'
+      'https://raw.githubusercontent.com/val-2202/test/refs/heads/main/out.lua'
     );
     const script = await res.text();
 
