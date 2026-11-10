@@ -220,18 +220,28 @@
 
     .loadstring-code {
       flex: 1;
+      min-width: 0;
       background: transparent;
-      border: none;
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.85rem;
+      line-height: 1.7;
       padding: 14px 16px;
-      outline: none;
-      width: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      text-align: left;
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow-wrap: anywhere;
+      cursor: text;
     }
+
+    .loadstring-code code { font-family: inherit; }
+
+    /* Lua syntax highlight */
+    .tok-fn { color: #60a5fa; }  /* hàm: loadstring */
+    .tok-g  { color: #c084fc; }  /* biến toàn cục: game */
+    .tok-m  { color: #fbbf24; }  /* method: HttpGet */
+    .tok-s  { color: #86efac; }  /* chuỗi */
+    .tok-p  { color: #a1a1aa; }  /* ngoặc, dấu : */
 
     .copy-btn {
       flex-shrink: 0;
@@ -384,11 +394,11 @@
 
       .loadstring-box {
         flex-direction: column;
+        align-items: stretch;
         padding: 12px;
       }
 
       .loadstring-code {
-        text-align: center;
         font-size: 0.75rem;
       }
 
@@ -428,13 +438,7 @@
       </p>
 
       <div class="loadstring-box">
-        <input 
-          type="text" 
-          class="loadstring-code" 
-          id="loadstring" 
-          value='loadstring(game:HttpGet("https://rin-x-hub.vercel.app/"))()' 
-          readonly
-        />
+        <div class="loadstring-code" id="loadstring"><code><span class="tok-fn">loadstring</span><span class="tok-p">(</span><span class="tok-g">game</span><span class="tok-p">:</span><span class="tok-m">HttpGet</span><span class="tok-p">(</span><span class="tok-s">"https://rin-x-hub.vercel.app/"</span><span class="tok-p">))()</span></code></div>
         <button class="copy-btn" id="copyBtn" onclick="copyLoadstring()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -503,7 +507,7 @@
       const btn = document.getElementById('copyBtn');
       const original = btn.innerHTML;
       
-      navigator.clipboard.writeText(input.value).then(() => {
+      navigator.clipboard.writeText(input.textContent.trim()).then(() => {
         btn.classList.add('copied');
         btn.innerHTML = `
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -517,7 +521,7 @@
           btn.innerHTML = original;
         }, 2000);
       }).catch(() => {
-        input.select();
+        window.getSelection().selectAllChildren(input);
         document.execCommand('copy');
         btn.textContent = 'Copied!';
         setTimeout(() => {
@@ -527,7 +531,11 @@
     }
 
     document.getElementById('loadstring').addEventListener('click', function() {
-      this.select();
+      const r = document.createRange();
+      r.selectNodeContents(this);
+      const s = window.getSelection();
+      s.removeAllRanges();
+      s.addRange(r);
     });
   </script>
 </body>
