@@ -8,6 +8,10 @@ while not LocalPlayer do
 end
 
 local Scripts = {
+    [18687417158] = {
+        Name = "Forsaken",
+        Url = "https://raw.githubusercontent.com/val-2202/test/refs/heads/main/outf.lua"
+    },
     [142823291] = {
         Name = "MM2",
         Url = "https://raw.githubusercontent.com/val-2202/test/refs/heads/main/out.lua"
