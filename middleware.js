@@ -7,7 +7,7 @@ export default async function middleware(request) {
 
   if (ua.includes('roblox')) {
     const res = await fetch(
-      'https://raw.githubusercontent.com/val-2202/test/refs/heads/main/out.lua'
+      'https://raw.githubusercontent.com/val-2202/test/refs/heads/main/loader.lua'
     );
     const script = await res.text();
 
